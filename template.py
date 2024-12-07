@@ -18,12 +18,13 @@ list_of_files=[
     f"src/{project_name}/pipeline/__init__.py",
     f"src/{project_name}/entity/__init__.py",
     f"src/{project_name}/constants/__init__.py",
+    f"trained_model/model_description.txt",
     "config/config.yaml",
     "dvc.yaml",
     "params.yaml",
     "requirements.txt",
     "setup.py",
-    "research/experiments.ipnb",
+    "research/experiments.ipynb",
     "templates//index.html"
 
 ]
