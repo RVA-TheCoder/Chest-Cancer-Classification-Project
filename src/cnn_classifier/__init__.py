@@ -20,6 +20,7 @@ logging.basicConfig(
     ]
 )
 
+# Custom logger named "cnn_classifier_logger"
 logger = logging.getLogger("cnn_classifier_logger")
 
 

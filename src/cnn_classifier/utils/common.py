@@ -59,9 +59,8 @@ def create_directories(path_to_directories : list, verbose=True):
 
     (a) path_to_directories : (list) : list of path directories
 
-    (b) ignore_log : (bool) : (optional): ignore if multiple dirs is to be created.
-                                          Defaults to False.
-
+    (b) verbose : (bool) : (optional): logs about directory creation.
+                                       Defaults to True.
 
     """
 
@@ -82,7 +81,7 @@ def save_json(path:Path, data:dict):
     
     Parameters : 
     (a) path : (Path) : path to json file
-    (b) data : (dict) : data to be saves in json file
+    (b) data : (dict) : data to be saved in json file format.
     
     """
     with open(path, mode="w") as f:
@@ -97,17 +96,17 @@ def load_json(path:Path) -> ConfigBox:
 
     """
     
-    load json file data and returns a ConfigBox type output.
+    load json file data at given path and returns a ConfigBox type output.
     
     Returns :
-        ConfigBox : dat as class attributes instead of dict
+        ConfigBox : data as class attributes instead of dict
     """
 
     with open(path, mode='r') as f:
 
         content=json.load(f)
 
-    logger.info(f"json file loaded successfully form {path}")
+    logger.info(f"json file loaded successfully from {path}")
 
     return ConfigBox(content)
 
@@ -118,9 +117,8 @@ def save_bin(data : Any, path:Path):
     """
     save binary file
     
-    
     Parameters : 
-    (a) data : (Any) : data to be saved as binary.
+    (a) data : (Any) : data to be saved in binary file format.
     (b) path : (Path) : path to binary file
     
     """
@@ -172,12 +170,11 @@ def decodeImage(imgstring, filename):
 
     imgdata=base64.b64decode(imgstring)
 
-    with open(filename, mode='rb') as f:
+    with open(filename, mode='wb') as f:
 
         f.write(imgdata)
-        f.close()
-
     
+
 def encodeImageIntoBase64(croppedImagePath):
 
     with open(croppedImagePath, mode="rb") as f:
