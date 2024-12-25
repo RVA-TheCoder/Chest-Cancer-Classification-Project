@@ -27,8 +27,8 @@ share/python-wheels/
 MANIFEST
 
 # artifacts
-/research/chest-cancer-CT-scan-data.zip
-/artifacts
+research/chest-cancer-CT-scan-data.zip
+artifacts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
