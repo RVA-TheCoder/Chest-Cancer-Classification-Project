@@ -33,7 +33,7 @@ class PrepareBaseModel:
         
     
     @staticmethod
-    def _prepare_full_model(model, classes, freeze_all:bool, freeze_till:int, learning_rate):
+    def _prepare_full_model(model, classes, freeze_all:bool, freeze_till:int, learning_rate, input_shape):
 
         # Freeze all layers if freeze_all is True
         if freeze_all:
@@ -44,23 +44,37 @@ class PrepareBaseModel:
             for layer in model.layers[:-freeze_till]:
                 layer.trainable = False  # Correctly set layer.trainable
 
-        custom_model=tf.keras.models.Sequential(
-            model.layers,
-            [tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(units=10, activation="relu", name="Hidden_layer1"),
-            tf.keras.layers.Dense(units=5,activation="relu", name="Hiddem_layer2"),
-            tf.keras.layers.Dense(units=classes, activation="sigmoid", name="Output_layer")
+        # Creating new model on top
+        inputs=tf.keras.Input(shape=input_shape, name="input_layer")
 
-            ])
+        # Apply Rescaling
+        rescale_layer=tf.keras.layers.Rescaling(scale=1/255., name="rescaling_layer")
+        x = rescale_layer(inputs)
+
+        # VGG16 model
+        x = model(x, training=False)
+
+        # Hidden layers
+        flatten_layer = tf.keras.layers.Flatten(name="flatten_layer")(x)
+
+        hidden_layer1 = tf.keras.layers.Dense(
+                                            units=10,
+                                            activation="sigmoid",
+                                            name="hidden_layer1"
+                                            )(flatten_layer)
+
+        hidden_layer2=tf.keras.layers.Dense(units=10, activation="relu", name="hidden_layer2")(hidden_layer1)
+
+        output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer2)
+
+        full_model = tf.keras.models.Model(
+                                  inputs=inputs,
+                                  outputs=output_layer
+                                  )
         
-        # Compiling the model
-        custom_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-                             loss="binary_crossentropy",
-                             metrics=["accuracy"])
+        full_model.summary()
         
-        custom_model.summary()
-        
-        return custom_model
+        return full_model
 
         
     def custom_base_model(self):
@@ -70,7 +84,8 @@ class PrepareBaseModel:
             classes=self.config.params_classes,
             freeze_all=True,
             freeze_till=None,
-            learning_rate=self.config.params_learning_rate
+            learning_rate=self.config.params_learning_rate,
+            input_shape=self.config.params_image_size
 
             )
         
