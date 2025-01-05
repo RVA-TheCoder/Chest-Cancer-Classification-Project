@@ -30,7 +30,7 @@ if __name__ == "__main__":
         obj=PrepareBaseModelPipeline()
         obj.main()
 
-        logger.info(f">>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<")
+        logger.info(f">>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<\n\nx================x")
 
     except Exception as e :
         

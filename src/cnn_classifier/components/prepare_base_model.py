@@ -57,15 +57,19 @@ class PrepareBaseModel:
         # Hidden layers
         flatten_layer = tf.keras.layers.Flatten(name="flatten_layer")(x)
 
-        hidden_layer1 = tf.keras.layers.Dense(
-                                            units=10,
-                                            activation="sigmoid",
-                                            name="hidden_layer1"
-                                            )(flatten_layer)
+        # hidden_layer1 = tf.keras.layers.Dense(
+        #                                     units=10,
+        #                                     activation="sigmoid",
+        #                                     name="hidden_layer1"
+        #                                     )(flatten_layer)
 
-        hidden_layer2=tf.keras.layers.Dense(units=10, activation="relu", name="hidden_layer2")(hidden_layer1)
+        # hidden_layer2=tf.keras.layers.Dense(units=10, activation="relu", name="hidden_layer2")(hidden_layer1)
 
-        output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer2)
+        #output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer2)
+
+        hidden_layer1=tf.keras.layers.Dense(units=5, activation="relu", name="hidden_layer1")(flatten_layer)
+
+        output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer1)
 
         full_model = tf.keras.models.Model(
                                   inputs=inputs,

@@ -22,7 +22,6 @@ class DataIngestionConfig:
 
 
 # For Base model stage
-
 @dataclass(frozen=True)
 class PrepareBasseModelConfig:
 
@@ -34,6 +33,20 @@ class PrepareBasseModelConfig:
     params_image_size : list
     params_learning_rate : float
     params_classes : int
+
+# For training custom_base model
+@dataclass(frozen=True)
+class TrainingConfig:
+    root_dir:Path
+    trained_model_path:Path
+    custom_base_model_path:Path
+    training_data:Path
+    testing_data:Path
+    params_epochs:int
+    params_batch_size:int
+    params_is_augmentation:bool
+    params_image_size:list | tuple
+    params_learning_rate:float
     
 
 

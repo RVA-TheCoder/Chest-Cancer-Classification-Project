@@ -16,6 +16,6 @@ prepare_base_model:
 
 training:
   root_dir: trained_model/training
-  trained_model_path: trained_model/training/trained_model.h5
+  trained_model_path: trained_model/training/trained_model.keras
 
 

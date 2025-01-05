@@ -1,10 +1,12 @@
+import os
 from cnn_classifier.constants import *
 from cnn_classifier.utils.common import read_yaml, create_directories
 from cnn_classifier.entity.config_entity import (DataIngestionConfig ,
-                                                PrepareBasseModelConfig)
+                                                PrepareBasseModelConfig,
+                                                TrainingConfig)
+
 
 # Update the src/cnn_classifier/config/configuration.
-
 class ConfigurationManager:
 
     def __init__(self, config_filepath=CONFIG_FILE_PATH, params_filepath=PARAMS_FILE_PATH):
@@ -54,3 +56,32 @@ class ConfigurationManager:
                 )
         
         return prepare_base_model_config
+    
+    def get_training_config(self) -> TrainingConfig:
+
+        params=self.params
+        training=self.config.training
+        prepare_base_model=self.config.prepare_base_model
+        
+
+        training_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/train") )
+        testing_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/test") )
+
+        create_directories( [Path(training.root_dir)] )
+
+        
+        training_config=TrainingConfig(
+
+            root_dir=Path(training.root_dir),
+            trained_model_path=Path(training.trained_model_path),
+            custom_base_model_path=Path(prepare_base_model.custom_base_model_path),
+            training_data=Path(training_data),
+            testing_data=Path(testing_data),
+            params_epochs=params.EPOCHS,
+            params_batch_size=params.BATCH_SIZE,
+            params_is_augmentation=params.AUGMENTATION,
+            params_image_size=params.INPUT_SHAPE,
+            params_learning_rate=params.LEARNING_RATE
+        )
+
+        return training_config
