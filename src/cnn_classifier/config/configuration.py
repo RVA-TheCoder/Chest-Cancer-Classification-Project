@@ -1,9 +1,10 @@
 import os
 from cnn_classifier.constants import *
-from cnn_classifier.utils.common import read_yaml, create_directories
+from cnn_classifier.utils.common import read_yaml, create_directories, save_json
 from cnn_classifier.entity.config_entity import (DataIngestionConfig ,
                                                 PrepareBasseModelConfig,
-                                                TrainingConfig)
+                                                TrainingConfig,
+                                                EvaluationConfig)
 
 
 # Update the src/cnn_classifier/config/configuration.
@@ -85,3 +86,21 @@ class ConfigurationManager:
         )
 
         return training_config
+    
+
+    def get_evaluation_config(self) -> EvaluationConfig:
+
+        training_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/train") )
+        testing_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/test") )
+
+        eval_config=EvaluationConfig(
+            trained_model_path="trained_model/training/trained_model.keras",
+            training_data=Path(training_data),
+            testing_data=Path(testing_data),
+            mlflow_uri="https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow",
+            all_params=self.params,
+            params_image_size=self.params.INPUT_SHAPE,
+            params_batch_size=self.params.BATCH_SIZE
+        )
+        
+        return eval_config

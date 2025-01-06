@@ -17,6 +17,24 @@ link : https://www.tensorflow.org/guide/keras/transfer_learning
 9. Update the dvc.yaml file.
 
 
+##  dagshub
+
+MLFLOW_TRACKING_URI=https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow
+
+MLFLOW_TRACKING_USERNAME=Aakash00004
+
+MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
+
+
+
+### Run below commands at the terminal to export  env variables in the powershell or gitbash current session state:
+
+##### In powershell we use ''set'' and in gitbash we can use ''export''
+set MLFLOW_TRACKING_URI=https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow
+
+set MLFLOW_TRACKING_USERNAME=Aakash00004 
+
+set MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 
 
 

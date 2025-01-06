@@ -34,6 +34,7 @@ class PrepareBasseModelConfig:
     params_learning_rate : float
     params_classes : int
 
+
 # For training custom_base model
 @dataclass(frozen=True)
 class TrainingConfig:
@@ -50,6 +51,17 @@ class TrainingConfig:
     
 
 
+
+# For Evaluation of trained model
+@dataclass(frozen=True)
+class EvaluationConfig:
+    trained_model_path:Path
+    training_data:Path
+    testing_data:Path
+    all_params:dict
+    mlflow_uri:str
+    params_image_size:list | tuple
+    params_batch_size:int
 
 
 
