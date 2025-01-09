@@ -2,6 +2,7 @@ from cnn_classifier import logger
 import subprocess
 import os
 from pathlib import Path
+import dagshub
 
 
 STAGE_NAME="Data Ingestion stage"
