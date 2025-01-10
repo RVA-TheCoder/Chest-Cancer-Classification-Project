@@ -29,9 +29,10 @@ MANIFEST
 # artifacts
 research/chest-cancer-CT-scan-data.zip
 artifacts/
+trained_model/training/trained_model.keras
 
 # DVC files
-dvc.lock
+
 .dvcignore
 
 # PyInstaller
