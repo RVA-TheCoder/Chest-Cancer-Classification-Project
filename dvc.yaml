@@ -1,0 +1,64 @@
+stages:
+
+    date_ingestion: 
+      cmd: python src/cnn_classifier/pipeline/Stage01_data_ingestion.py
+      deps:
+        - src/cnn_classifier/pipeline/Stage01_data_ingestion.py
+        - config/config.yaml
+
+      outs:
+        - artifacts/data_ingestion/data
+
+    prepare_base_model: 
+      cmd: python src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
+      deps:
+        - src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
+        - config/config.yaml
+      params:
+        - INPUT_SHAPE
+        - INCLUDE_TOP
+        - CLASSES
+        - WEIGHTS
+        - LEARNING_RATE
+        - AUGMENTATION
+      outs:
+        - artifacts/prepare_base_model
+    
+
+    training:
+      cmd: python src/cnn_classifier/pipeline/Stage03_model_trainer.py
+      deps:
+        - src/cnn_classifier/pipeline/Stage03_model_trainer.py
+        - config/config.yaml
+        - artifacts/data_ingestion/data
+        - artifacts/prepare_base_model
+      params:
+        - INPUT_SHAPE
+        - INCLUDE_TOP
+        - CLASSES
+        - WEIGHTS
+        - LEARNING_RATE
+        - AUGMENTATION
+        - BATCH_SIZE 
+        - EPOCHS 
+
+      outs:
+        - trained_model/training/trained_model.keras
+
+    
+    evaluation:
+      cmd: python src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
+      deps:
+        - src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
+        - config/config.yaml
+        - artifacts/data_ingestion/data
+        - trained_model/training/trained_model.keras
+      params:
+        - INPUT_SHAPE
+        - BATCH_SIZE 
+        
+      metrics:
+        - scores.json:
+            cache: false
+
+
