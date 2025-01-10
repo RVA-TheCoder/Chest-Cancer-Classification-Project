@@ -29,8 +29,8 @@ MANIFEST
 # artifacts
 research/chest-cancer-CT-scan-data.zip
 artifacts/
-trained_model/training/*
-#trained_model/training/trained_model.keras
+
+trained_model/training/trained_model.keras
 
 # DVC files
 
