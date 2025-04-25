@@ -25,6 +25,7 @@ class Evaluation:
         self.images_test = Images(
                             directory=self.config.testing_data,
                             labels='inferred',
+                            label_mode="categorical",
                             image_size = self.config.params_image_size[:-1],
                             batch_size = self.config.params_batch_size
                             )

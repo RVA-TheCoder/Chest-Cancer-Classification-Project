@@ -45,3 +45,74 @@ stages:
       md5: ed90dacba98ade71a5e1bde0ad1f5d7c.dir
       size: 118332344
       nfiles: 2
+  training:
+    cmd: python src/cnn_classifier/pipeline/Stage03_model_trainer.py
+    deps:
+    - path: artifacts/data_ingestion/data
+      hash: md5
+      md5: c0669814c37b9318a90c9259a3ef44d9.dir
+      size: 80853194
+      nfiles: 543
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: ed90dacba98ade71a5e1bde0ad1f5d7c.dir
+      size: 118332344
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 4335322fa741e16c1c2ffe00be857783
+      size: 612
+    - path: src/cnn_classifier/pipeline/Stage03_model_trainer.py
+      hash: md5
+      md5: d1593b8cbb92d1c0cdfce747d4aea171
+      size: 938
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        CLASSES: 1
+        EPOCHS: 1
+        INCLUDE_TOP: false
+        INPUT_SHAPE:
+        - 224
+        - 224
+        - 3
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: trained_model/training/trained_model.keras
+      hash: md5
+      md5: 0c9ff2d1a360a42bd7f3c9bae14b22fd
+      size: 60435552
+  evaluation:
+    cmd: python src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
+    deps:
+    - path: artifacts/data_ingestion/data
+      hash: md5
+      md5: c0669814c37b9318a90c9259a3ef44d9.dir
+      size: 80853194
+      nfiles: 543
+    - path: config/config.yaml
+      hash: md5
+      md5: 4335322fa741e16c1c2ffe00be857783
+      size: 612
+    - path: src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
+      hash: md5
+      md5: 5d59542330eff940635a8cf1b4902304
+      size: 935
+    - path: trained_model/training/trained_model.keras
+      hash: md5
+      md5: 0c9ff2d1a360a42bd7f3c9bae14b22fd
+      size: 60435552
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        INPUT_SHAPE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 1a6dd5d22c6843f4b333d8b09beb8cec
+      size: 73

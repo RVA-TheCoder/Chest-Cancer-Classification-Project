@@ -30,6 +30,8 @@ MANIFEST
 research/chest-cancer-CT-scan-data.zip
 artifacts/
 
+# Because DVC is tracking the same
+# uncomment this when pushing the final project to git repo for deployment
 trained_model/training/trained_model.keras
 
 # DVC files

@@ -4,7 +4,7 @@ from zipfile import ZipFile
 import tensorflow as tf
 from cnn_classifier.entity.config_entity import PrepareBasseModelConfig
 from pathlib import Path
-
+from typing import Optional
 
 
 class PrepareBaseModel:
@@ -33,8 +33,12 @@ class PrepareBaseModel:
         
     
     @staticmethod
-    def _prepare_full_model(model, classes, freeze_all:bool, freeze_till:int, learning_rate, input_shape):
+    def _prepare_full_model(model, classes, freeze_all:bool, freeze_till:Optional[int], learning_rate, input_shape):
 
+        """"
+        Optional[int] means the parameter can be either int or None.
+        """
+        
         # Freeze all layers if freeze_all is True
         if freeze_all:
             model.trainable = False  # Correctly set layer.trainable
@@ -67,9 +71,13 @@ class PrepareBaseModel:
 
         #output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer2)
 
-        hidden_layer1=tf.keras.layers.Dense(units=5, activation="relu", name="hidden_layer1")(flatten_layer)
+        #hidden_layer1=tf.keras.layers.Dense(units=5, activation="relu", name="hidden_layer1")(flatten_layer)
 
-        output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer1)
+        #output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer1)
+
+
+        output_layer=tf.keras.layers.Dense(units=classes, activation="softmax", name="output_layer")(flatten_layer)
+
 
         full_model = tf.keras.models.Model(
                                   inputs=inputs,

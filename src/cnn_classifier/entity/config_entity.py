@@ -14,6 +14,9 @@ class DataIngestionConfig:
 
     root_dir, source_url, local_data_file, unzip_dir : arguments to __init__ method.
 
+    @dataclass(frozen=True) : Makes the DataIngestionConfig instances immutable. 
+                              Once an object is created, its attributes cannot be changed.
+                              Attempting to modify an attribute will raise a FrozenInstanceError.
     """
     root_dir : Path
     source_url : str
@@ -23,7 +26,7 @@ class DataIngestionConfig:
 
 # For Base model stage
 @dataclass(frozen=True)
-class PrepareBasseModelConfig:
+class PrepareBaseModelConfig:
 
     root_dir: Path
     base_model_path : Path

@@ -15,7 +15,7 @@ try:
     script_path = Path(script_path)
     #print(script_path)
 
-    subprocess.run(["python", script_path])
+    #subprocess.run(["python", script_path])
     
 except Exception as e:
     raise e
@@ -32,7 +32,7 @@ try:
     script_path = Path(script_path)
     #print(script_path)
 
-    subprocess.run(["python", script_path])
+    #subprocess.run(["python", script_path])
     
 except Exception as e:
     raise e
@@ -49,7 +49,7 @@ try:
     script_path = Path(script_path)
     #print(script_path)
 
-    subprocess.run(["python", script_path])
+    #subprocess.run(["python", script_path])
     
 except Exception as e:
     raise e
@@ -69,7 +69,7 @@ try:
     subprocess.run(["python", script_path])
     
 except Exception as e:
-    raise e
+    raise e 
 
 
 
