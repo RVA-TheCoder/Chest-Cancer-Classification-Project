@@ -33,7 +33,12 @@ class PrepareBaseModel:
         
     
     @staticmethod
-    def _prepare_full_model(model, classes, freeze_all:bool, freeze_till:Optional[int], learning_rate, input_shape):
+    def _prepare_full_model(model,
+                            classes,
+                            freeze_all:bool,
+                            freeze_till:Optional[int],
+                            learning_rate,   # option is given but not used
+                            input_shape):
 
         """"
         Optional[int] means the parameter can be either int or None.
@@ -58,9 +63,10 @@ class PrepareBaseModel:
         # VGG16 model
         x = model(x, training=False)
 
-        # Hidden layers
+        # Flatten layer
         flatten_layer = tf.keras.layers.Flatten(name="flatten_layer")(x)
 
+        # Hidden layers
         # hidden_layer1 = tf.keras.layers.Dense(
         #                                     units=10,
         #                                     activation="sigmoid",
@@ -69,14 +75,18 @@ class PrepareBaseModel:
 
         # hidden_layer2=tf.keras.layers.Dense(units=10, activation="relu", name="hidden_layer2")(hidden_layer1)
 
-        #output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer2)
+        #output_layer=tf.keras.layers.Dense(units=classes-1,
+        #                                   activation="sigmoid",
+        #                                   name="output_layer")(hidden_layer2)
 
         #hidden_layer1=tf.keras.layers.Dense(units=5, activation="relu", name="hidden_layer1")(flatten_layer)
 
-        #output_layer=tf.keras.layers.Dense(units=1, activation="sigmoid", name="output_layer")(hidden_layer1)
+        #output_layer=tf.keras.layers.Dense(units=classes-1, activation="sigmoid", name="output_layer")(hidden_layer1)
 
 
-        output_layer=tf.keras.layers.Dense(units=classes, activation="softmax", name="output_layer")(flatten_layer)
+        output_layer=tf.keras.layers.Dense(units=classes,
+                                           activation="softmax",
+                                           name="output_layer")(flatten_layer)
 
 
         full_model = tf.keras.models.Model(

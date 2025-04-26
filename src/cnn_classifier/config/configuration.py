@@ -59,6 +59,7 @@ class ConfigurationManager:
         
         return prepare_base_model_config
     
+    
     def get_training_config(self) -> TrainingConfig:
 
         params=self.params

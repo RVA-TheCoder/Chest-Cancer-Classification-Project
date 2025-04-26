@@ -1,6 +1,7 @@
 stages:
 
     date_ingestion: 
+
       cmd: python src/cnn_classifier/pipeline/Stage01_data_ingestion.py
       deps:
         - src/cnn_classifier/pipeline/Stage01_data_ingestion.py
@@ -10,28 +11,36 @@ stages:
         - artifacts/data_ingestion/data
 
     prepare_base_model: 
+
       cmd: python src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
+
       deps:
         - src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
         - config/config.yaml
+        - params.yaml
+
       params:
         - INPUT_SHAPE
         - INCLUDE_TOP
-        - CLASSES
+        - CLASSES   
         - WEIGHTS
-        - LEARNING_RATE
-        - AUGMENTATION
+        - LEARNING_RATE # we have given an option to use the LR but didn't use
+
       outs:
         - artifacts/prepare_base_model
     
 
     training:
+
       cmd: python src/cnn_classifier/pipeline/Stage03_model_trainer.py
+
       deps:
         - src/cnn_classifier/pipeline/Stage03_model_trainer.py
         - config/config.yaml
         - artifacts/data_ingestion/data
         - artifacts/prepare_base_model
+        - params.yaml
+
       params:
         - INPUT_SHAPE
         - INCLUDE_TOP
@@ -47,18 +56,22 @@ stages:
 
     
     evaluation:
+
       cmd: python src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
+
       deps:
         - src/cnn_classifier/pipeline/Stage04_model_evaluation_mlflow.py
         - config/config.yaml
         - artifacts/data_ingestion/data
         - trained_model/training/trained_model.keras
+        - params.yaml
+
       params:
-        - INPUT_SHAPE
-        - BATCH_SIZE 
-        
+        - INPUT_SHAPE   # needed to prepare the test data for evaluation
+        - BATCH_SIZE    # needed to prepare the test data for evaluation
+
       metrics:
-        - scores.json:
+        - ModelEvaluation_scores.json:
             cache: false
 
 
