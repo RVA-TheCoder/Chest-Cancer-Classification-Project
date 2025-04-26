@@ -65,7 +65,8 @@ class EvaluationConfig:
     mlflow_uri:str
     params_image_size:list | tuple
     params_batch_size:int
-
+    
+    
 
 
 

@@ -2,14 +2,14 @@ import os
 from urllib import request
 from zipfile import ZipFile
 import tensorflow as tf
-from cnn_classifier.entity.config_entity import PrepareBasseModelConfig
+from cnn_classifier.entity.config_entity import PrepareBaseModelConfig
 from pathlib import Path
 from typing import Optional
 
 
 class PrepareBaseModel:
 
-    def __init__(self, config:PrepareBasseModelConfig):
+    def __init__(self, config:PrepareBaseModelConfig):
 
         self.config=config
 

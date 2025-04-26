@@ -18,16 +18,22 @@ class Evaluation_Pipleine:
         eval_config = config.get_evaluation_config()
         evaluation = Evaluation(eval_config)
         evaluation.model_evaluation()
+        # comment below line while deploying the project to production because there we dont want expermient tracking and model logging
         #evaluation.log_into_mlflow()
+        
+    
 
 
 if __name__ == '__main__':
 
     try:
+        
         logger.info(f"*******************")
         logger.info(f">>>>>>>>>>> stage {STAGE_NAME} started <<<<<<<<<<<<")
 
+        # Creating object of class Evaluation_Pipleine
         obj = Evaluation_Pipleine()
+        # calling method
         obj.main()
 
         logger.info(f">>>>>>>>>> stage {STAGE_NAME} completed <<<<<<<<<<<\n\n")
