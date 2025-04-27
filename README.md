@@ -42,8 +42,11 @@ export MLFLOW_TRACKING_USERNAME=Aakash00004
 
 export MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 
+## dvc : for pipeline tracking 
 
-
+#### After creating the dvc.yaml file , Run 'dvc repro' at the terminal to execute the file.
+#### Above command will generate the 'dvc.lock' file that has all the details regarding our pipeline.
+#### Run 'dvc dag' at the terminal for creating the dependency graph of the pipeline stages using dvc.
 
 
 

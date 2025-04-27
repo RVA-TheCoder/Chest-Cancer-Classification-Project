@@ -46,7 +46,9 @@ def home():
 def predictRoute():
     
     image = request.json['image']
+    
     decodeImage(image, clApp.filename)
+    # calling the method on the class object PredictionPipeline(self.filename)
     result = clApp.classifier.predict()
 
     response = jsonify(result)
