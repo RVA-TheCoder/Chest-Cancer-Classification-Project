@@ -1,4 +1,5 @@
-tensorflow==2.18.0
+#tensorflow==2.18.0 2.13.0  # for local project run and virtual environment setup
+tensorflow== 2.13.0  # for production project run and virtual environment setup using docker image
 pandas
 gdown
 dvc
