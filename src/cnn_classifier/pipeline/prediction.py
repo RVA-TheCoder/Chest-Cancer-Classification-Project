@@ -14,10 +14,12 @@ class PredictionPipeline:
 
     def predict(self):
 
-        ## load model
-        # model = load_model(os.path.join("artifacts","training", "trained_model.keras"))
-        #model = load_model(os.path.join("model", "trained_model.keras"))
-        model = load_model("E:/STUDY/TENSORFLOW/Projects/1_CNN_Project/trained_model/training/trained_model.keras")
+        # load model
+        # uncomment below line if running on the local system
+        #model = load_model("E:/STUDY/TENSORFLOW/Projects/1_CNN_Project/trained_model/training/trained_model.keras")
+        
+        # Comment below line if running the project on local system
+        model = load_model(os.path.join("trained_model","training","trained_model.keras"))
 
         # Load the image
         imagename = self.filename
