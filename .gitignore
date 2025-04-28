@@ -34,7 +34,7 @@ artifacts/
 test.py
 
 # Because DVC is tracking the same
-# uncomment this iff when pushing the final project to git repo for deployment
+# uncomment this iff when pushing the final project to git repo for deployment because we need the trained model for prediction
 trained_model/training/trained_model.keras
 
 # DVC files
