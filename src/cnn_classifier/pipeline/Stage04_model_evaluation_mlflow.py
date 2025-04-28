@@ -18,7 +18,7 @@ class Evaluation_Pipleine:
         eval_config = config.get_evaluation_config()
         evaluation = Evaluation(eval_config)
         evaluation.model_evaluation()
-        # comment below line while deploying the project to production because there we dont want expermient tracking and model logging
+        # comment below line while deploying the project to production because there we dont want experiment tracking and model logging
         #evaluation.log_into_mlflow()
         
     

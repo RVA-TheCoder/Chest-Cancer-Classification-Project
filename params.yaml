@@ -1,8 +1,8 @@
-AUGMENTATION : False
+AUGMENTATION : True
 INCLUDE_TOP : False # whether to include the 3 fully-connected layers at the top of the network.
 INPUT_SHAPE : [224,224,3] # image size
 BATCH_SIZE : 16
-EPOCHS : 1
+EPOCHS : 2
 WEIGHTS : imagenet
 LEARNING_RATE : 0.01
 CLASSES : 2  # binary classification, used to create the number of neurons in the output layer with sigmoid activation function

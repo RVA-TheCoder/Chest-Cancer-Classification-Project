@@ -1,3 +1,5 @@
+# Donot give any local system related absolute path eg. : E:\STUDY\TENSORFLOW\Projects\1_CNN_Project\src\cnn_classifier\pipeline\...
+# It will throw error(s) when we run the app on the production server.
 stages:
 
     date_ingestion: 

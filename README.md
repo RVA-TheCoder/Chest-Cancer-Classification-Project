@@ -16,35 +16,27 @@ link : https://www.tensorflow.org/guide/keras/transfer_learning
 8. Update the dvc.yaml file.
 
 
-##  dagshub
+##  Dagshub
 
-MLFLOW_TRACKING_URI=https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow
+### (i) For initializing the dagshub in your project use below code (available inside `remote` option of dagshub project repo ):
 
-MLFLOW_TRACKING_USERNAME=Aakash00004
+import dagshub
 
-MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
+dagshub.init(repo_owner=<project repo owner>, repo_name=< project repo name>, mlflow=True)
 
+### (ii) After initializing the dagshub, use below code for finding mlflow details:
+print(os.getenv("MLFLOW_TRACKING_URI"))
 
+print(os.getenv("MLFLOW_TRACKING_USERNAME"))
 
-### Run below commands at the terminal to export  env variables in the powershell or gitbash current session state:
+print(os.getenv("MLFLOW_TRACKING_PASSWORD"))
 
-##### In powershell we use ''set'' and 
-set MLFLOW_TRACKING_URI=https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow
-
-set MLFLOW_TRACKING_USERNAME=Aakash00004 
-
-set MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
-
-##### In gitbash we use ''export''
-export MLFLOW_TRACKING_URI=https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.   mlflow
-
-export MLFLOW_TRACKING_USERNAME=Aakash00004 
-
-export MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 
 ## dvc : for pipeline tracking 
 
-#### After creating the dvc.yaml file , Run 'dvc repro' at the terminal to execute the file.
+#### After creating the dvc.yaml file ,
+- first, Run `dvc init` at the terminal : for initializing the dvc in your project, then
+- Run `dvc repro` at the terminal to execute the `dvc.yaml` file.
 #### Above command will generate the 'dvc.lock' file that has all the details regarding our pipeline.
 #### Run 'dvc dag' at the terminal for creating the dependency graph of the pipeline stages using dvc.
 
@@ -60,19 +52,6 @@ export MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 
 	2. ECR: Elastic Container registry to save your docker image in aws
 
-
-	#Description: About the deployment
-
-	1. Build docker image of the source code
-
-	2. Push your docker image to ECR
-
-	3. Launch Your EC2 
-
-	4. Pull Your image from ECR in EC2
-
-	5. Lauch your docker image in EC2
-
 	#Policy:
 
 	1. AmazonEC2ContainerRegistryFullAccess
@@ -81,15 +60,14 @@ export MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 
 	
 ## 3. Create ECR repo to store/save docker image
-    - Save the URI: 566373416292.dkr.ecr.us-east-1.amazonaws.com/chicken
+    - Save the ECR URI: for eg., 56637...765.dkr.ecr.us-east-1.amazonaws.com/chicken
 
 	
 ## 4. Create EC2 machine (Ubuntu) 
 
-## 5. Open EC2 and Install docker in EC2 Machine:
+## 5. Open EC2 and Install docker in EC2 Machine by running below commands at the EC2 terminal:
 	
-	
-	#optinal
+	#optional
 
 	sudo apt-get update -y
 
@@ -106,10 +84,22 @@ export MLFLOW_TRACKING_PASSWORD=620c670a001ca0eca0af7e36c8140bf200e2e4ed
 	newgrp docker
 	
 # 6. Configure EC2 as self-hosted runner:
-    setting>actions>runner>new self hosted runner> choose os> then run command one by one
+    - inside github project repo goto :->  setting>actions>runner>new self hosted runner> choose os> 
+	- then run commands one by one at the EC2 terminal mentioned by github while creating the `self-hosted` runner.
 
+# 7. Description: About the deployment
 
-# 7. Setup github secrets:
+	1. Build docker image of the source code
+
+	2. Push your docker image to AWS ECR
+
+	3. Launch Your AWS EC2 instance
+
+	4. Pull Your image from ECR into EC2
+
+	5. Lauch your docker image in EC2 instance
+
+# 8. Setup github secrets:
 
     AWS_ACCESS_KEY_ID=<from iam user .csv file>
 

@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
+
 # For dataIngestion stage
 @dataclass(frozen=True)
 class DataIngestionConfig:

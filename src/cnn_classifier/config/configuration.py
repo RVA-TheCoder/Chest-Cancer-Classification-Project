@@ -66,7 +66,7 @@ class ConfigurationManager:
         training=self.config.training
         prepare_base_model=self.config.prepare_base_model
         
-
+        # Donot give local system related absoute path, otherwise it will throw error when the app will run on the production server
         training_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/train") )
         testing_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/test") )
 
@@ -121,6 +121,7 @@ class ConfigurationManager:
     
     def get_evaluation_config(self) -> EvaluationConfig:
 
+        # Donot give local system related absoute path, otherwise it will throw error when the app will run on the production server
         training_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/train") )
         testing_data=Path(os.path.join(self.config.data_ingestion.unzip_dir, r"data/test") )
         
@@ -128,11 +129,15 @@ class ConfigurationManager:
         self.initialize_dagshub()
 
         eval_config=EvaluationConfig(
+            # Donot give local system related absoute path, otherwise it will throw error when the app will run on the production server
             trained_model_path="trained_model/training/trained_model.keras",
+            
             training_data=Path(training_data),
             testing_data=Path(testing_data),
+            
             #mlflow_uri="https://dagshub.com/Aakash00004/Chest-Cancer-Classification-Project.mlflow",
             mlflow_uri=os.getenv("MLFLOW_TRACKING_URI"),
+            
             all_params=self.params,
             params_image_size=self.params.INPUT_SHAPE,
             params_batch_size=self.params.BATCH_SIZE

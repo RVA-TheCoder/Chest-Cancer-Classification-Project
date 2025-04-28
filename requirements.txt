@@ -1,5 +1,4 @@
-#tensorflow==2.18.0 2.13.0  # for local project run and virtual environment setup
-tensorflow== 2.18.0  # for production project run and virtual environment setup using docker image
+tensorflow== 2.18.0  # It requires the python image that has version >= 3.9 eg. python:3.10-slim-buster
 pandas
 gdown
 dvc

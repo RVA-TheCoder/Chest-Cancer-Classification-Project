@@ -22,8 +22,6 @@ class ClientApp:
 
 
 
-
-
 @app.route("/", methods=['GET'])
 @cross_origin()
 def home():
