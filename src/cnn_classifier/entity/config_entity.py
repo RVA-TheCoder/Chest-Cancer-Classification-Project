@@ -1,23 +1,25 @@
-# Update the src/cnn_classifier/entity
-
 from dataclasses import dataclass
 from pathlib import Path
 
 
-# For dataIngestion stage
+# For DataIngestion stage
 @dataclass(frozen=True)
 class DataIngestionConfig:
 
     """
     dataclasses provides a decorator (@dataclass) to automatically generate methods like
-    __init__, __repr__, and __eq__ for classes, thus simplifying the creation
-     of data containers.
-
-    root_dir, source_url, local_data_file, unzip_dir : arguments to __init__ method.
+    __init__, __repr__, and __eq__ for classes, thus simplifying the creation of data containers.
+     
 
     @dataclass(frozen=True) : Makes the DataIngestionConfig instances immutable. 
                               Once an object is created, its attributes cannot be changed.
                               Attempting to modify an attribute will raise a FrozenInstanceError.
+                              
+    Parameters : 
+        (a) root_dir : root directory path for dataingestion stage.
+        (b) source_url : google drive url where data is stored.
+        (c) local_data_file : local path where data file being downloaded will be stored.
+        (d) unzip_dir : dir path where data file unzip operation will be done.
     """
     root_dir : Path
     source_url : str
@@ -54,7 +56,7 @@ class TrainingConfig:
     params_is_augmentation:bool
     params_image_size:list | tuple
     params_learning_rate:float
-    
+    params_metrices:list
 
 
 

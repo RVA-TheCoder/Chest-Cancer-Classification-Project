@@ -9,15 +9,33 @@ from cnn_classifier.entity.config_entity import DataIngestionConfig
 
 
 class DataIngestion:
+    
+    """
+    Component to handle data ingestion for the CNN classifier project.
+    Includes downloading the dataset from a URL(gdrive) and extracting it.
+    """
 
     def __init__(self, config:DataIngestionConfig):
+        
+        """
+        Initializes the DataIngestion class with the provided configuration.
+
+        Parameters : 
+            (a) config (DataIngestionConfig): Configuration object containing paths and URLs.
+        """
 
         self.config = config
 
     def download_file(self) ->str :
 
         """
-        fetch data from the url.
+        Downloads a ZIP file from a Google Drive URL and saves it locally.
+
+        Returns:
+            str: Path to the downloaded ZIP file.
+
+        Raises:
+            Exception: If the download fails or the URL is incorrect.
         """
         
         try :
@@ -29,11 +47,13 @@ class DataIngestion:
             # creating root directory for data ingestion if not already been created
             os.makedirs(name=self.config.root_dir , exist_ok=True)
 
+            # Convert Google Drive shareable link to direct download link
             file_id=dataset_url.split("/")[-2]
             prefix="https://drive.google.com/uc?/export=download&id="
-            # downloading the file from gdrive
             file_url=prefix+file_id
+            
             logger.info(f"Downloading data from {dataset_url} into file {zip_download_dir}")
+            # downloading the file from gdrive
             gdown.download(url=file_url,output=zip_download_dir)
             logger.info(f"Downloaded data from {dataset_url} into file {zip_download_dir}")
 
@@ -43,7 +63,10 @@ class DataIngestion:
     def extract_zip_file(self):
 
         """
-        This method extracts the zip file.
+        Extracts the contents of the downloaded ZIP file to the specified directory.
+
+        Raises:
+            Exception: If the zip extraction fails due to a corrupted file or path issue.
         """
         unzip_dir_path=self.config.unzip_dir
 
@@ -54,4 +77,4 @@ class DataIngestion:
             
             # path : specifies a  directory to extract to.
             zip_ref.extractall(path=unzip_dir_path)
-
+            logger.info(f"Extracted zip file to {unzip_dir_path}")

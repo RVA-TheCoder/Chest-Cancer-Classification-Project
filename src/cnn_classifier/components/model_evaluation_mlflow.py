@@ -1,10 +1,13 @@
-import tensorflow as tf
 from pathlib import Path
+from urllib.parse import urlparse
+
 import mlflow
 import dagshub
 import mlflow.keras
-from urllib.parse import urlparse
+
+import tensorflow as tf
 from tensorflow.keras.utils import image_dataset_from_directory as Images
+
 from cnn_classifier.entity.config_entity import EvaluationConfig
 from cnn_classifier.utils.common import read_yaml, create_directories, save_json
 
@@ -12,17 +15,44 @@ from cnn_classifier.utils.common import read_yaml, create_directories, save_json
 
 
 class Evaluation:
+    
+    """
+    Handles evaluation of a trained CNN model on test data, 
+    logs performance metrics and model artifacts to MLflow/Dagshub.
+    """
 
     def __init__(self, config:EvaluationConfig):
+        
+        """
+        Initialize the 'Evaluation' class with configuration settings.
+
+        Parameters : 
+            (a) config (EvaluationConfig): Configuration object containing paths and parameters.
+        """
 
         self.config = config
 
+
     def get_trained_model(self):
+        
+        """
+        Loads and returns the trained Keras model from the specified path in the config.
+
+        Returns:
+            tf.keras.Model: Loaded trained model.
+        """
 
         return tf.keras.models.load_model( self.config.trained_model_path
                                          )   
+           
                                             
     def get_test_data(self):
+        
+        """
+        Loads the test dataset from the configured directory using Keras utility.
+
+        The dataset will have labels inferred from folder names and will be in categorical format.
+        """
 
 
         self.images_test = Images(
@@ -35,11 +65,26 @@ class Evaluation:
 
 
     def save_eval_score(self):
+        
+        """
+        Saves the evaluation scores (loss and accuracy) to a JSON file named 'ModelEvaluation_scores.json'.
+        
+        """
 
         scores = {"loss": self.score[0], "accuracy": self.score[1]}
         save_json(path=Path("ModelEvaluation_scores.json"), data=scores)
 
+
+
     def model_evaluation(self):
+        
+        """
+        Executes the full evaluation pipeline:
+            - Loads the trained model
+            - Loads the test data
+            - Evaluates the model on the test set
+            - Saves the evaluation scores
+        """
 
         # calling method
         self.trained_model = self.get_trained_model()
@@ -51,6 +96,7 @@ class Evaluation:
         
         # calling method
         self.save_eval_score()
+
 
 
     def log_into_mlflow(self ,Repo_Owner:str='Aakash00004',
@@ -65,6 +111,15 @@ class Evaluation:
         MLflow tracking server where runs, parameters, metrics, and artifacts will be logged..
 
         """
+        """
+        Logs model parameters, metrics, and artifacts to MLflow and optionally registers the model.
+
+        Parameters :
+            (a) Repo_Owner (str): Owner of the Dagshub repository.
+            (b) Repo_Name (str): Name of the Dagshub repository.
+            (c) MlFlow (bool): Whether to use MLflow tracking for logging.
+        """
+        
         # No need of below code for  Repository Aakash00004/Chest-Cancer-Classification-Project to be
         # initialized! because we've initialized the repo inside the 
         # method 'get_evaluation_config' of class 'ConfigurationManager' inside src/cnn_classifier/config/configuration.py file
@@ -122,3 +177,5 @@ class Evaluation:
                 mlflow.keras.log_model(self.trained_model, "model")
 
    
+
+

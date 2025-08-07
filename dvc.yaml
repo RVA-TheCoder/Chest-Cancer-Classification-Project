@@ -2,7 +2,7 @@
 # It will throw error(s) when we run the app on the production server.
 stages:
 
-    date_ingestion: 
+    data_ingestion: 
 
       cmd: python src/cnn_classifier/pipeline/Stage01_data_ingestion.py
       deps:
@@ -15,7 +15,7 @@ stages:
     prepare_base_model: 
 
       cmd: python src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
-
+    
       deps:
         - src/cnn_classifier/pipeline/Stage02_prepare_base_model.py
         - config/config.yaml

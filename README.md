@@ -83,11 +83,11 @@ print(os.getenv("MLFLOW_TRACKING_PASSWORD"))
 
 	newgrp docker
 	
-# 6. Configure EC2 as self-hosted runner:
+## 6. Configure EC2 as self-hosted runner:
     - inside github project repo goto :->  setting>actions>runner>new self hosted runner> choose os> 
 	- then run commands one by one at the EC2 terminal mentioned by github while creating the `self-hosted` runner.
 
-# 7. Description: About the deployment
+## 7. Description: About the deployment
 
 	1. Build docker image of the source code
 
@@ -99,7 +99,7 @@ print(os.getenv("MLFLOW_TRACKING_PASSWORD"))
 
 	5. Lauch your docker image in EC2 instance
 
-# 8. Setup github secrets:
+## 8. Setup github secrets:
 
     AWS_ACCESS_KEY_ID=<from iam user .csv file>
 

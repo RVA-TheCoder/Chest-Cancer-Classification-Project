@@ -2,11 +2,8 @@ import os
 from box.exceptions import BoxValueError
 import yaml
 
-
-from cnn_classifier import logger
 import json
 import joblib
-
 
 from ensure import ensure_annotations
 from box import ConfigBox
@@ -14,23 +11,25 @@ from pathlib import Path
 from typing import Any
 import base64
 
+from cnn_classifier import logger
+
+
 
 @ensure_annotations
 def read_yaml(path_to_yaml:Path) -> ConfigBox:
 
     """
-    reads yaml file and returns ConfigBox type output
+    Reads a YAML file and returns its contents as a ConfigBox object.
 
-    Parameters : 
-    (a) path_to_yaml : (str) : path to yaml file
+    parameters : 
+        (a) path_to_yaml (Path): Path to the YAML configuration file.
 
-    Raises : 
-          ValueError : if yaml file is empty
-                       e : empty file
+    Raises:
+        ValueError: If the YAML file is empty.
+        Exception: For all other exceptions.
 
-    Returns : 
-            ConfigBox : ConfigBox type
-
+    Returns:
+        ConfigBox: Parsed YAML content as an object with dot-accessible keys.
     """
 
     try:
@@ -54,15 +53,11 @@ def read_yaml(path_to_yaml:Path) -> ConfigBox:
 def create_directories(path_to_directories : list, verbose=True):
 
     """
-    Create directories from path_to_directories.
+    Creates directories if they don't already exist.
 
-    Paramters :
-
-    (a) path_to_directories : (list) : list of path directories
-
-    (b) verbose : (bool) : (optional): logs about directory creation.
-                                       Defaults to True.
-
+    Parameters : 
+        (a) path_to_directories (list[Path]): List of directory paths to create.
+        (b) verbose (bool, optional): Whether to log the creation. Defaults to True.
     """
 
     for path in path_to_directories:
@@ -78,13 +73,13 @@ def create_directories(path_to_directories : list, verbose=True):
 def save_json(path:Path, data:dict):
 
     """
-    save json data
-    
+    Saves a dictionary to a JSON file.
+
     Parameters : 
-    (a) path : (Path) : path to json file
-    (b) data : (dict) : data to be saved in json file format.
-    
+        (a) path (Path): Path where the JSON file should be saved.
+        (b) data (dict): Data to save in JSON format.
     """
+    
     with open(path, mode="w") as f:
 
         json.dump(obj=data, fp=f, indent=4)
@@ -96,11 +91,13 @@ def save_json(path:Path, data:dict):
 def load_json(path:Path) -> ConfigBox:
 
     """
-    
-    load json file data at given path and returns a ConfigBox type output.
-    
-    Returns :
-        ConfigBox : data as class attributes instead of dict
+    Loads a JSON file and returns the content as a ConfigBox.
+
+    Parameters : 
+        (a) path (Path): Path to the JSON file.
+
+    Returns:
+        ConfigBox: Parsed JSON content with dot-accessible keys.
     """
 
     with open(path, mode='r') as f:
@@ -116,11 +113,11 @@ def load_json(path:Path) -> ConfigBox:
 def save_bin(data : Any, path:Path):
 
     """
-    save binary file
-    
-    Parameters : 
-    (a) data : (Any) : data to be saved in binary file format.
-    (b) path : (Path) : path to binary file
+    Saves data to a binary file using joblib.
+
+    Parameters :
+        (a) data (Any): Data to be saved.
+        (b) path (Path): File path for the binary output.
     
     """
 
@@ -134,13 +131,13 @@ def save_bin(data : Any, path:Path):
 def load_bin(path:Path) -> Any:
 
     """
-    load binary data
-    
-    Parameters : 
-    (a) path : (Path) : path to binary file.
-    
-    Returns : (Any) : object stored in the file
-    
+    Loads data from a binary file using joblib.
+
+    Parameters :
+        (a) path (Path): Path to the binary file.
+
+    Returns:
+        Any: Loaded data object.
     """
     
     data=joblib.load(path)
@@ -152,14 +149,13 @@ def load_bin(path:Path) -> Any:
 def get_size(path:Path) -> str:
 
     """
-    get the size of file in (KB)
+    Gets the size of a file in kilobytes (KB).
 
     Parameters : 
-    (a) path : (Path) : path to a file
+        (a) path (Path): Path to the file.
 
-    Returns : 
-        str : size in KB
-
+    Returns:
+        str: File size in KB (rounded).
     """
 
     size_in_kb = round( os.path.getsize(path) / 1024 )
@@ -168,6 +164,17 @@ def get_size(path:Path) -> str:
 
 
 def decodeImage(imgstring, filename):
+    
+    """
+    Decodes a base64-encoded image string and saves it as an image file.
+
+    Parameters : 
+        (a) imgstring (str): The base64-encoded image string.
+        (b) filename (str): The name (with path) of the file to save the decoded image to.
+
+    Example:
+        decodeImage(imgstring, "output_image.png")
+    """
 
     imgdata=base64.b64decode(imgstring)
 
@@ -177,6 +184,19 @@ def decodeImage(imgstring, filename):
     
 
 def encodeImageIntoBase64(croppedImagePath):
+    
+    """
+    Reads an image file from the given path and encodes its content into a base64 string.
+
+    Parameters : 
+        (a) croppedImagePath (str): The file path of the image to be encoded.
+
+    Returns:
+        bytes: The base64-encoded representation of the image.
+
+    Example:
+        encoded_string = encodeImageIntoBase64("cropped_image.jpg")
+    """
 
     with open(croppedImagePath, mode="rb") as f:
 
